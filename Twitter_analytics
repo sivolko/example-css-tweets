@@ -1,0 +1,25 @@
+//defining client like this 
+
+
+
+
+client = Twitter::REST::Client.new do |config|
+    config.consumer_key        = Devise.omniauth_configs[:twitter].strategy.consumer_key
+    config.consumer_secret     = Devise.omniauth_configs[:twitter].strategy.consumer_secret
+    config.access_token        = self.identities.find_by(provider: :twitter).token
+    config.access_token_secret = self.identities.find_by(provider: :twitter).token_secret
+end
+
+
+
+//Defining array endpoint from tweet_id
+
+
+path = "1.1/statuses/lookup.json"
+ids = ['1234567890','56324931407']
+
+
+//calling API to get respose 
+
+
+response = Twitter::REST::Request.new(client, 'get', path, {id: ids, map: true}).perform
